@@ -4,8 +4,8 @@
 typedef struct Boston {
     float crim;
     float zn;
-    int indus;
-    float chas;
+    float indus;
+    int chas;
     float nox;
     float rm;
     float age;
