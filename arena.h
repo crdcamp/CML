@@ -1,8 +1,10 @@
 #ifndef ARENA_H
 #define ARENA_H
-#include <limits>
 #include <stddef.h>
 #include <stdint.h>
+
+#define MIN(a, b) a < b ? a : b
+#define MAX(a, b) a > b ? a : b
 
 // https://www.bytesbeneath.com/p/the-arena-custom-memory-allocators
 typedef struct {
@@ -11,23 +13,6 @@ typedef struct {
     size_t capacity; // Maximum size of the arena
 
 } Arena;
-
-typedef struct {
-    float crim;
-    float zn;
-    float indus;
-    int chas;
-    float nox;
-    float rm;
-    float age;
-    float dis;
-    int rad;
-    int tax;
-    float ptratio;
-    float b;
-    float lstat;
-    float medv;
-} Boston;
 
 void *arena_alloc(size_t size);
 

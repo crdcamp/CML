@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <stdlib.h>
 
+#include "csv.h"
 #include "arena.h"
-
-void read_csv(char *file_path);
 
 int main(void) {
     return 0;
