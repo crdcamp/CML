@@ -1,7 +1,11 @@
 CC=clang
+BINARIES=main.o
 
 all:
-	$(CC) main.c -o main
+	$(CC) main.c -o main.o
+
+debug:
+	lldb ./main
 
 clean:
-	rm -f main
+	rm -f $(BINARIES)
