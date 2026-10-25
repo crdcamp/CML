@@ -58,12 +58,20 @@ void read_csv(char *filepath) {
     // Assign each column name to its corresponding index in the `table` hash table
     char *table[MAX_HASH_INDICES];
     unsigned int index = 0;
-    char *column_name = strtok(columns, ",");
-    while (column_name != NULL) {
-        column_name = strtok(NULL, ","); // Grab individual columns
-        printf("Assigning %s to index %i\n", column_name, index);
-        table[index] = column_name;
+    char *column_token = strtok(columns, ",");
+    while (column_token != NULL) {
+        printf("Column %i: %s\n", index, column_token);
         index++;
+        table[index] = column_token;
+        column_token = strtok(NULL, ",");
+    }
+
+    printf("\n");
+
+    // Test print to see if there are null table indices
+    int table_size = sizeof(table) / sizeof(table[0]);
+    for (int i = 0; i < table_size; i++) {
+        printf("Table index %i: %s\n", i, table[i]);
     }
 
     // Remove NULL indices from the hash table
