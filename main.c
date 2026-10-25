@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "csv.h"
+#include "hash.h"
 
 int main(void) {
     // Open ze csv file
@@ -54,7 +54,7 @@ void load_csv(FILE *file_pointer) {
     // Strip the `\n` from the end of the columns row if found
     int columns_size = strlen(columns);
     columns = strip_newline(columns);
-    columns_size = strlen(columns); // Reassign columns_size after newline char is stripped
+    columns_size = strlen(columns); // Reassign columxns_size after newline char is stripped
 
     // Count the number of columns in the dataset for hash table assignment
     // using commas as delimiters
