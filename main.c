@@ -68,7 +68,7 @@ void load_csv(FILE *file_pointer) {
 
     // Assign each column name to its corresponding index in the hash table
     char *column_token = strtok(columns, ",");
-    node *table[columns_count];
+    EntryNode *table[columns_count];
     unsigned int index = 0;
     while (column_token != NULL) {
         table[index]->column_name = column_token;
