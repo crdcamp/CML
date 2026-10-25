@@ -1,23 +1,18 @@
 #ifndef CSV_H
 #define CSV_H
 
-typedef struct {
-    float crim;
-    float zn;
-    float indus;
-    int chas;
-    float nox;
-    float rm;
-    float age;
-    float dis;
-    int rad;
-    int tax;
-    float ptratio;
-    float b;
-    float lstat;
-    float medv;
-} Boston;
+#include <stdint.h>
+#include <stdlib.h>
 
-void read_csv(char *file_path);
+#define MAX_ROWS 1000
+#define MAX_COLS 1000
+
+typedef struct {
+    size_t n_rows, n_columns;
+    char **names;
+    char **columns;
+} Table;
+
+void read_csv(char *filepath);
 
 #endif

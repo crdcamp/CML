@@ -2,7 +2,7 @@ CC=clang
 BINARIES=main.o
 
 main:
-	$(CC) main.c simple_linear_regression.c -o main.o
+	$(CC) main.c -o main.o
 
 debug:
 	lldb ./main
