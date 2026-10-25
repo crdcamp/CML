@@ -13,8 +13,10 @@ int main(void) {
     }
 
     // Load ze csv file into memory and close the file pointer
-    load_csv(salary_file_pointer);
+    Table salary_table;
+    csv_load(salary_file_pointer);
     fclose(salary_file_pointer);
+    //csv_unload(salary_table);
 
     return 0;
 }

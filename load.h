@@ -9,19 +9,16 @@
 #define MAX_ROW_SIZE 1000
 
 // This is some sort of hybrid between an arena allocator and a hash table
-// (no idea if that's even semantically correct tbh)
+// (no idea if that's even semantically correct tbh... probably not)
 // to avoid scattering the memory all over the heap, and instead just scatter it a lil bit
-typedef struct Node {
+typedef struct Table {
     char column_name[MAX_COL_NAME_SIZE];
     char data[MAX_ROW_SIZE];
-    size_t capacity;
-    size_t usage;
-} Node;
+} Table;
 
 
-// CSV handling
 char *strip_newline(char *text);
-void load_csv(FILE *file_pointer);
-void free_csv(Node *table);
+Table *csv_load(FILE *file_pointer);
+void csv_unload(Table *table);
 
 #endif

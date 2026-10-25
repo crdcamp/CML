@@ -18,7 +18,7 @@ char *strip_newline(char *text) {
 }
 
 // Load the csv into memory as a hash table and close the file pointer
-void load_csv(FILE *file_pointer) {
+Table *load_csv(FILE *file_pointer) {
     // Get the column names so they can be assigned as hash table indices
     char columns_buffer[MAX_ROW_SIZE + 1]; // Never forget to account for the null terminator '\0'
     char *columns = fgets(columns_buffer, sizeof(columns_buffer), file_pointer);
@@ -38,10 +38,10 @@ void load_csv(FILE *file_pointer) {
     }
 
     // Allocate memory for the table
-    Node *table = malloc(sizeof(Node) * columns_count);
+    Table *table = malloc(sizeof(Table) * columns_count);
     if (table == NULL) {
         printf("Error allocating memory for hash table\n");
-        return;
+        return NULL;
     }
 
     // Assign each column name to its corresponding index in the hash table
@@ -50,7 +50,7 @@ void load_csv(FILE *file_pointer) {
     while (column_token != NULL) {
         if (strlen(column_token) > MAX_COL_NAME_SIZE) {
             printf("Error: Column name '%s' exceeds maximum column name size\n", column_token);
-            return;
+            return NULL;
         }
         strcpy(table[index].column_name, column_token);
         index++;
@@ -90,4 +90,6 @@ void load_csv(FILE *file_pointer) {
         // We might also want to consider making the use of `strtok` its own function
 
     }
+
+    return table;
 }
