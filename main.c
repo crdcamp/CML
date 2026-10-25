@@ -33,7 +33,9 @@ int main(void) {
 char *strip_newline(char *text) {
     int text_size = strlen(text);
     if (text_size == 0) {
+        // Poor error handling here
         printf("`strip_newline` error: No text found\n");
+        return NULL;
     }
     if (text[text_size - 1] == '\n') {
         text[text_size - 1] = 0;
@@ -65,25 +67,28 @@ void load_csv(FILE *file_pointer) {
         }
     }
 
+    // Allocate memory for the table
+    Node *table = malloc(sizeof(Node) * columns_count);
+    if (table == NULL) {
+        printf("Error allocating memory for hash table\n");
+        return;
+    }
+
     // Assign each column name to its corresponding index in the hash table
     char *column_token = strtok(columns, ",");
-    Node *table[columns_count];
     unsigned int index = 0;
     while (column_token != NULL) {
-        table[index] = malloc(sizeof(Node));
-        if (table[index] == NULL) {
-            printf("Error when allocating memory for table index %i\n", index);
-            for (int i = 0; i < columns_count; i++) {
-                free(table[i]);
-            }
+        if (strlen(column_token) > MAX_COL_NAME_SIZE) {
+            printf("Error: Column name '%s' exceeds maximum column name size\n", column_token);
+            return;
         }
-        table[index]->column_name = column_token;
+        strcpy(table[index].column_name, column_token);
         index++;
         column_token = strtok(NULL, ",");
     }
 
     for (int i = 0; i < columns_count; i++) {
-        printf("Hash table index %i: '%s'\n", i, table[i]->column_name);
+        printf("Hash table index %i: '%s'\n", i, table[i].column_name);
     }
 
     // Iterate through the rest of the file and assign the results to the hash table
