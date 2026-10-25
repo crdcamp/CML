@@ -1,11 +1,17 @@
-CC=clang
-BINARIES=main.o
+CC      = clang
+CFLAGS  = -Wall -Wextra -g
+SOURCES = main.c load_csv.c
+TARGET  = main
 
-main:
-	$(CC) main.c -o main.o
+.PHONY: all debug clean
 
-debug:
-	lldb ./main.o
+all: $(TARGET)
+
+$(TARGET): $(SOURCES)
+	$(CC) $(CFLAGS) $(SOURCES) -o $(TARGET)
+
+debug: $(TARGET)
+	lldb ./$(TARGET)
 
 clean:
-	rm -f $(BINARIES)
+	rm -f $(TARGET)

@@ -2,6 +2,7 @@
 #define CSV_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define MAX_COL_NAME_SIZE 80
@@ -21,6 +22,6 @@ typedef struct Node {
 // CSV handling
 char *strip_newline(char *text);
 void load_csv(FILE *file_pointer);
-
+void free_csv(Node *table);
 
 #endif
