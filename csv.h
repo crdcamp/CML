@@ -9,6 +9,7 @@
 // (no idea if that's even semantically correct tbh)
 // to avoid scattering the memory all over the heap
 typedef struct node {
+    char *column_name;
     struct node *rows[MAX_ROW_SIZE];
 } node;
 

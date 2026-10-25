@@ -68,16 +68,16 @@ void load_csv(FILE *file_pointer) {
 
     // Assign each column name to its corresponding index in the hash table
     char *column_token = strtok(columns, ",");
-    char *table[columns_count];
+    node *table[columns_count];
     unsigned int index = 0;
     while (column_token != NULL) {
-        table[index] = column_token;
+        table[index]->column_name = column_token;
         index++;
         column_token = strtok(NULL, ",");
     }
 
     for (int i = 0; i < columns_count; i++) {
-        printf("Hash table index %i: '%s'\n", i, table[i]);
+        printf("Hash table index %i: '%s'\n", i, table[i]->column_name);
     }
 
     // Iterate through the rest of the file and assign the results to the hash table
@@ -105,5 +105,7 @@ void load_csv(FILE *file_pointer) {
 
         // Assign the row to the corresponding entry in the hash table
         // We can reuse a few variables here for correctly assigning indices
+        // We might also want to consider making the use of `strtok` its own function
+
     }
 }
