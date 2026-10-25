@@ -1,7 +1,6 @@
 #ifndef CSV_H
 #define CSV_H
 
-#include "headers/csv.h"
 #include <stdio.h>
 
 #define MAX_ROW_SIZE 1000

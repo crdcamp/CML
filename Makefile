@@ -5,7 +5,7 @@ main:
 	$(CC) main.c -o main.o
 
 debug:
-	lldb ./main
+	lldb ./main.o
 
 clean:
 	rm -f $(BINARIES)
