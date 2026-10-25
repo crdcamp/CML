@@ -45,12 +45,13 @@ void read_csv(char *filepath) {
     char columns_buffer[MAX_ROW_SIZE + 1]; // Never forget to account for the null terminator '\0'
     char *columns = fgets(columns_buffer, sizeof(columns_buffer), fp);
 
-    // Strip the newline char from the end of the row
-    int columns_size = sizeof(columns);
+    // Strip the `\n` from the end of the row if found
+    int columns_size = strlen(columns);
     char last_char = columns[columns_size - 1];
-    if (last_char == '\n') {
+    if (columns[columns_size - 1] == '\n') {
         columns[columns_size - 1] = 0;
     }
+    else printf("Newline character now found for row: %s\n", columns);
 
     printf("COLUMN NAMES: %s\n", columns);
 
