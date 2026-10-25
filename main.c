@@ -32,12 +32,14 @@ int main(void) {
 
 char *strip_newline(char *text) {
     int text_size = strlen(text);
-    char last_char = text[text_size - 1];
+    if (text_size == 0) {
+        printf("`strip_newline` error: No text found\n");
+    }
     if (text[text_size - 1] == '\n') {
         text[text_size - 1] = 0;
     }
     else {
-        return NULL;
+        printf("`strip_newline` error: no newline character found for row: %s\n", text);
     }
 
     return text;
@@ -46,16 +48,13 @@ char *strip_newline(char *text) {
 // Load the csv into memory as a hash table and close the file pointer
 void load_csv(FILE *file_pointer) {
     // Get the column names so they can be assigned as hash table indices
-    char row_buffer[MAX_ROW_SIZE + 1]; // Never forget to account for the null terminator '\0'
-    char *columns = fgets(row_buffer, sizeof(row_buffer), file_pointer);
+    char columns_buffer[MAX_ROW_SIZE + 1]; // Never forget to account for the null terminator '\0'
+    char *columns = fgets(columns_buffer, sizeof(columns_buffer), file_pointer);
 
     // Strip the `\n` from the end of the columns row if found
     int columns_size = strlen(columns);
     columns = strip_newline(columns);
-    if (columns == NULL) {
-        printf("Error: no newline character found for row: %s\n", columns);
-        return;
-    }
+    columns_size = strlen(columns); // Reassign columns_size after newline char is stripped
 
     // Count the number of columns in the dataset for hash table assignment
     // using commas as delimiters
@@ -68,17 +67,23 @@ void load_csv(FILE *file_pointer) {
 
     // Assign each column name to its corresponding index in the hash table
     char *column_token = strtok(columns, ",");
-    EntryNode table[columns_count];
+    Node *table[columns_count];
     unsigned int index = 0;
     while (column_token != NULL) {
-        table[index].column_name = column_token;
-        table[index].node = NULL;
+        table[index] = malloc(sizeof(Node));
+        if (table[index] == NULL) {
+            printf("Error when allocating memory for table index %i\n", index);
+            for (int i = 0; i < columns_count; i++) {
+                free(table[i]);
+            }
+        }
+        table[index]->column_name = column_token;
         index++;
         column_token = strtok(NULL, ",");
     }
 
     for (int i = 0; i < columns_count; i++) {
-        printf("Hash table index %i: '%s'\n", i, table[i].column_name);
+        printf("Hash table index %i: '%s'\n", i, table[i]->column_name);
     }
 
     // Iterate through the rest of the file and assign the results to the hash table
@@ -94,13 +99,14 @@ void load_csv(FILE *file_pointer) {
 
     // We also want to keep track of the max number of rows as well.
     char *row;
+    char row_buffer[MAX_ROW_SIZE + 1];
     while ((row = fgets(row_buffer, sizeof(row_buffer), file_pointer)) != NULL) {
         // If we're on the the first row (the column names), then we want to skip it
         // There's gotta be a better way than checking every iteration for this though
         // Maybe there's a way to delete the columns row from the data above when we're
         // done with it!?!?
         // For now, let's just get the rest of the function done
-        if (row == columns) {
+        if ((strcmp(row, columns) == 0) || (row[0] == '\n')) {
             continue;
         }
 

@@ -17,13 +17,9 @@
 // the ability to refer to column names in this project, as the Boston dataset
 // has way more columns than the Salary dataset
 typedef struct Node {
+    char *column_name;
     char data[MAX_ROW_SIZE];
 } Node;
-
-typedef struct EntryNode {
-    char *column_name;
-    Node *node;
-} EntryNode;
 
 
 // CSV handling
