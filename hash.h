@@ -2,6 +2,7 @@
 #define CSV_H
 
 #include <stdio.h>
+#include <string.h>
 
 #define MAX_COL_NAME_SIZE 80
 #define MAX_ROW_SIZE 1000
@@ -12,6 +13,8 @@
 typedef struct Node {
     char column_name[MAX_COL_NAME_SIZE];
     char data[MAX_ROW_SIZE];
+    size_t capacity;
+    size_t usage;
 } Node;
 
 
