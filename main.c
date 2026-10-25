@@ -4,7 +4,15 @@
 #include "csv.h"
 
 int main(void) {
-    FILE *salary_file_pointer = fopen("data/Salary_dataset.csv", "r");
+    // Open ze csv file
+    char *salary_file_string = "data/Salary_dataset.csv";
+    FILE *salary_file_pointer = fopen(salary_file_string, "r");
+    if (salary_file_pointer == NULL) {
+        printf("Error opening %s\n", salary_file_string);
+        return 0;
+    }
+
+    // Load ze csv file into memory and close the file pointer
     load_csv(salary_file_pointer);
     fclose(salary_file_pointer);
 
@@ -22,27 +30,36 @@ int main(void) {
 // Begin with simple linear regression, then you can move onto multiple
 // linear regression
 
-unsigned int hash(const char *column) {
-    // Compare the name of the column to
-    return 0;
+char *strip_newline(char *text) {
+    int text_size = strlen(text);
+    char last_char = text[text_size - 1];
+    if (text[text_size - 1] == '\n') {
+        text[text_size - 1] = 0;
+    }
+    else {
+        return NULL;
+    }
+
+    return text;
 }
 
 // Load the csv into memory as a hash table and close the file pointer
 void load_csv(FILE *file_pointer) {
-    // Get the first row of the dataset (the column names)
-    char columns_buffer[MAX_ROW_SIZE + 1]; // Never forget to account for the null terminator '\0'
-    char *columns = fgets(columns_buffer, sizeof(columns_buffer), file_pointer);
+    // Get the column names so they can be assigned as hash table indices
+    char row_buffer[MAX_ROW_SIZE + 1]; // Never forget to account for the null terminator '\0'
+    char *columns = fgets(row_buffer, sizeof(row_buffer), file_pointer);
 
-    // Strip the `\n` from the end of the row if found
+    // Strip the `\n` from the end of the columns row if found
     int columns_size = strlen(columns);
-    char last_char = columns[columns_size - 1];
-    if (columns[columns_size - 1] == '\n') {
-        columns[columns_size - 1] = 0;
+    columns = strip_newline(columns);
+    if (columns == NULL) {
+        printf("Error: no newline character found for row: %s\n", columns);
+        return;
     }
-    else printf("Newline character now found for row: %s\n", columns);
 
     // Count the number of columns in the dataset for hash table assignment
-    unsigned int columns_count = 1;
+    // using commas as delimiters
+    unsigned int columns_count = 1; // Comma count will always be one less than column count
     for (int i = 0; i < columns_size; i++) {
         if (columns[i] == ',') {
             columns_count++;
@@ -59,6 +76,10 @@ void load_csv(FILE *file_pointer) {
         column_token = strtok(NULL, ",");
     }
 
+    for (int i = 0; i < columns_count; i++) {
+        printf("Hash table index %i: '%s'\n", i, table[i]);
+    }
+
     // Iterate through the rest of the file and assign the results to the hash table
     // First, you need to check if the row is == `columns`, If it is, move onto the next
     // Don't forget to remove the newline character
@@ -66,4 +87,23 @@ void load_csv(FILE *file_pointer) {
     // Final requirements:
     // Convert remove newline section to a function
     // Convert strtok operations to a function (maybe...)
+
+    // Might want to do a for loop instead of a while loop for skipping the first row
+    // This way, you don't have to check the row on every single iteration
+
+    // We also want to keep track of the max number of rows as well.
+    char *row;
+    while ((row = fgets(row_buffer, sizeof(row_buffer), file_pointer)) != NULL) {
+        // If we're on the the first row (the column names), then we want to skip it
+        // There's gotta be a better way than checking every iteration for this though
+        // Maybe there's a way to delete the columns row from the data above when we're
+        // done with it!?!?
+        // For now, let's just get the rest of the function done
+        if (row == columns) {
+            continue;
+        }
+
+        // Assign the row to the corresponding entry in the hash table
+        // We can reuse a few variables here for correctly assigning indices
+    }
 }
