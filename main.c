@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdlib.h>
 
-#include "arena.h"
-#include "csv.h"
+#include "headers/csv.h"
+#include "headers/arena.h"
 
 int main(void) {
     read_csv("data/Salary_dataset.csv");
@@ -31,12 +31,25 @@ void read_csv(char *filepath) {
         fp = NULL;
     }
 
-    int i = 0;
+    int row_index = 0;
     char *row;
     char row_buffer[MAX_ROWS + 1];
     size_t row_buffer_size = sizeof(row_buffer);
+
+    // Get each row
     while ((row = fgets(row_buffer, row_buffer_size, fp))) {
-        printf("Row %i: %s", i, row);
-        i++;
+        // Split by commas into tokens
+        char *column = strtok(row, ",");
+
+        // Print each column for testing
+        int column_index = 0;
+        while (column != NULL) {
+            printf("Column %i: %s\n", column_index, column);
+            column = strtok(NULL, ","); // Iterate to the next token
+            column_index++;
+        }
+
+        // `i` is just a temporary variable for printing
+        row_index++;
     }
 }

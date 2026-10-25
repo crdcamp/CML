@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define MAX_ROWS 1000
 #define MAX_COLS 1000
