@@ -9,8 +9,9 @@
 #define MAX_COLS 1000
 
 typedef struct {
-    size_t n_rows, n_columns;
-    char **names;
+    size_t n_rows;
+    size_t n_columns;
+    char **column_names;
     char **columns;
 } Table;
 

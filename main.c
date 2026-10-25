@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "headers/csv.h"
 #include "headers/arena.h"
@@ -31,25 +32,33 @@ void read_csv(char *filepath) {
         fp = NULL;
     }
 
-    int row_index = 0;
+    int row_count = 0;
+    int column_count = 0;
     char *row;
     char row_buffer[MAX_ROWS + 1];
     size_t row_buffer_size = sizeof(row_buffer);
 
     // Get each row
     while ((row = fgets(row_buffer, row_buffer_size, fp))) {
-        // Split by commas into tokens
-        char *column = strtok(row, ",");
+        // Define `table` for struct assignment
+        Table *table;
 
-        // Print each column for testing
-        int column_index = 0;
-        while (column != NULL) {
-            printf("Column %i: %s\n", column_index, column);
-            column = strtok(NULL, ","); // Iterate to the next token
-            column_index++;
+        // Assign column names
+        char *column = strtok(row, ",");
+        char column_names =
+        while (column_names != NULL) {
+
         }
 
-        // `i` is just a temporary variable for printing
-        row_index++;
+        // Print each column for testing
+        while (column != NULL) {
+            //printf("Column %i: %s\n", column_count, column);
+            column = strtok(NULL, ","); // Iterate to the next token
+            column_count++;
+        }
+        // `row_index` is just a temporary variable for printing
+        row_count++;
+
+        // Assign the values to the `Table` struct
     }
 }
