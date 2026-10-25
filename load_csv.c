@@ -1,4 +1,5 @@
 #include "load.h"
+#include <string.h>
 
 char *strip_newline(char *text) {
     int text_size = strlen(text);
@@ -18,7 +19,9 @@ char *strip_newline(char *text) {
 }
 
 // Load the csv into memory as a hash table and close the file pointer
-Table *load_csv(FILE *file_pointer) {
+// Should just handle the file pointer in here and just instead pass a string
+// file path to this function
+Table *csv_load(FILE *file_pointer) {
     // Get the column names so they can be assigned as hash table indices
     char columns_buffer[MAX_ROW_SIZE + 1]; // Never forget to account for the null terminator '\0'
     char *columns = fgets(columns_buffer, sizeof(columns_buffer), file_pointer);
@@ -48,7 +51,7 @@ Table *load_csv(FILE *file_pointer) {
     char *column_token = strtok(columns, ",");
     unsigned int index = 0;
     while (column_token != NULL) {
-        if (strlen(column_token) > MAX_COL_NAME_SIZE) {
+        if (strlen(column_token) > MAX_CELL_SIZE + 1) {
             printf("Error: Column name '%s' exceeds maximum column name size\n", column_token);
             return NULL;
         }
@@ -88,7 +91,17 @@ Table *load_csv(FILE *file_pointer) {
         // Assign the row to the corresponding entry in the hash table
         // We can reuse a few variables here for correctly assigning indices
         // We might also want to consider making the use of `strtok` its own function
-
+        int i = 0;
+        row = strip_newline(row);
+        printf("Row %i: %s\n", i, row);
+        char *cell_token = strtok(row, ",");
+        while (cell_token != NULL) {
+            if (strlen(cell_token) > MAX_CELL_SIZE + 1) {
+                printf("Error: Column name '%s' exceeds maximum column name size\n", column_token);
+                return NULL;
+            }
+            strcpy(&table[i].data[i], cell_token);
+        }
     }
 
     return table;

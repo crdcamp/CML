@@ -5,14 +5,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_COL_NAME_SIZE 80
+#define MAX_CELL_SIZE 80
 #define MAX_ROW_SIZE 1000
 
 // This is some sort of hybrid between an arena allocator and a hash table
 // (no idea if that's even semantically correct tbh... probably not)
 // to avoid scattering the memory all over the heap, and instead just scatter it a lil bit
 typedef struct Table {
-    char column_name[MAX_COL_NAME_SIZE];
+    char column_name[MAX_CELL_SIZE];
     char data[MAX_ROW_SIZE];
 } Table;
 
