@@ -22,8 +22,12 @@ int main(void) {
 // Begin with simple linear regression, then you can move onto multiple
 // linear regression
 
+unsigned int hash(const char *column) {
+
+}
+
 // Given a file path, read a `.csv` file and load
-// it into memory
+// it into memory as a hash table
 void read_csv(char *filepath) {
     FILE *fp = fopen(filepath, "r");
     if (fp == NULL) {
@@ -32,33 +36,16 @@ void read_csv(char *filepath) {
         fp = NULL;
     }
 
-    int row_count = 0;
-    int column_count = 0;
+    // Declare the hash table, which will store the column names
+    char *table[MAX_COLS];
+
+    // Assign the column names to the corresponding hash index
+
+
+    // Now we need a hash function for assigning the column data
+    // by column name
+
     char *row;
     char row_buffer[MAX_ROWS + 1];
     size_t row_buffer_size = sizeof(row_buffer);
-
-    // Get each row
-    while ((row = fgets(row_buffer, row_buffer_size, fp))) {
-        // Define `table` for struct assignment
-        Table *table;
-
-        // Assign column names
-        char *column = strtok(row, ",");
-        char column_names =
-        while (column_names != NULL) {
-
-        }
-
-        // Print each column for testing
-        while (column != NULL) {
-            //printf("Column %i: %s\n", column_count, column);
-            column = strtok(NULL, ","); // Iterate to the next token
-            column_count++;
-        }
-        // `row_index` is just a temporary variable for printing
-        row_count++;
-
-        // Assign the values to the `Table` struct
-    }
 }
