@@ -60,18 +60,6 @@ Table *csv_load(FILE *file_pointer) {
         column_token = strtok(NULL, ",");
     }
 
-    // Iterate through the rest of the file and assign the results to the hash table
-    // First, you need to check if the row is == `columns`, If it is, move onto the next
-    // Don't forget to remove the newline character
-    // You'll also need to work on the hash function part of the way through this
-    // Final requirements:
-    // Convert remove newline section to a function
-    // Convert strtok operations to a function (maybe...)
-
-    // Might want to do a for loop instead of a while loop for skipping the first row
-    // This way, you don't have to check the row on every single iteration
-
-    // We also want to keep track of the max number of rows as well.
     char *row;
     char row_buffer[MAX_ROW_SIZE + 1];
     while ((row = fgets(row_buffer, sizeof(row_buffer), file_pointer)) != NULL) {
