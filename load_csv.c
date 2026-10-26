@@ -40,7 +40,7 @@ Table *csv_load(FILE *file_pointer) {
         }
     }
 
-    // Allocate memory for the table
+    // Allocate memory for the table (just a single malloc, would you look at that!)
     Table *table = malloc(sizeof(Table) * columns_count);
     if (table == NULL) {
         printf("Error allocating memory for hash table\n");
@@ -58,10 +58,6 @@ Table *csv_load(FILE *file_pointer) {
         strcpy(table[index].column_name, column_token);
         index++;
         column_token = strtok(NULL, ",");
-    }
-
-    for (unsigned int i = 0; i < columns_count; i++) {
-        printf("Hash table index %i: '%s'\n", i, table[i].column_name);
     }
 
     // Iterate through the rest of the file and assign the results to the hash table
@@ -89,20 +85,38 @@ Table *csv_load(FILE *file_pointer) {
         }
 
         // Assign the row to the corresponding entry in the hash table
-        // We can reuse a few variables here for correctly assigning indices
-        // We might also want to consider making the use of `strtok` its own function
-        int i = 0;
+        // This is a mess.
+        // WHEN YOU REVISIT THIS:
+        // Priority #1 is seeing if you can convert the `strtok` operations
+        // into a function.
+        // Next, use print statements to figure this out. Print the row, the columns
+        // and their corresponding indices, and the row indices, and figure it out
+        // from there
         row = strip_newline(row);
-        printf("Row %i: %s\n", i, row);
         char *cell_token = strtok(row, ",");
         while (cell_token != NULL) {
             if (strlen(cell_token) > MAX_CELL_SIZE + 1) {
                 printf("Error: Column name '%s' exceeds maximum column name size\n", column_token);
                 return NULL;
             }
-            strcpy(&table[i].data[i], cell_token);
+            // Assign each column in the row to it's corresponding table index
+            int column = 0;
+            int row_index = 0;
+            for (unsigned int i = 0; i < columns_count; i++) {
+                strcpy(table[column].data[row_index], cell_token);
+                cell_token = strtok(NULL, ",");
+                column++;
+            }
+            row_index++;
         }
     }
 
     return table;
+
+    for (int i = 0; i < columns_count; i++) {
+        for (int j = 0; j < MAX_ROW_SIZE; j++) {
+            printf("Table %i data: %s", j, table[i].data[j]);
+        }
+        printf("\n\n");
+    }
 }
