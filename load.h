@@ -14,7 +14,7 @@
 // to avoid scattering the memory all over the heap, and instead just scatter it a lil bit
 typedef struct Table {
     char column_name[MAX_CELL_SIZE];
-    char *data[MAX_COLS ];
+    char *data[MAX_ROW_SIZE];
 } Table;
 
 

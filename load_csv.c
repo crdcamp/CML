@@ -77,6 +77,7 @@ Table *csv_load(FILE *file_pointer) {
         // WHEN YOU REVISIT THIS:
         // Priority #1 is seeing if you can convert the `strtok` operations
         // into a function.
+        // Moreover, YOU NEED TO USE STRCPY BEFORE STRTOK, STRTOK EDITS THE VALUES
         // Next, use print statements to figure this out. Print the row, the columns
         // and their corresponding indices, and the row indices, and figure it out
         // from there
