@@ -33,7 +33,7 @@ Table *csv_load(FILE *file_pointer) {
 
     // Count the number of columns in the dataset for hash table assignment
     // using commas as delimiters
-    unsigned int columns_count = 1; // Comma count will always be one less than column count
+    unsigned int columns_count = 1; // The number of commas will always be one less than column count
     for (int i = 0; i < columns_size; i++) {
         if (columns[i] == ',') {
             columns_count++;
@@ -77,7 +77,11 @@ Table *csv_load(FILE *file_pointer) {
         // WHEN YOU REVISIT THIS:
         // Priority #1 is seeing if you can convert the `strtok` operations
         // into a function.
+
         // Moreover, YOU NEED TO USE STRCPY BEFORE STRTOK, STRTOK EDITS THE VALUES
+        // You can also make th strtok function return an array of strings. This means
+        // one of the inputs would need to be the number of columns
+
         // Next, use print statements to figure this out. Print the row, the columns
         // and their corresponding indices, and the row indices, and figure it out
         // from there
@@ -85,7 +89,7 @@ Table *csv_load(FILE *file_pointer) {
         char *cell_token = strtok(row, ",");
         while (cell_token != NULL) {
             if (strlen(cell_token) > MAX_CELL_SIZE + 1) {
-                printf("Error: Column name '%s' exceeds maximum column name size\n", column_token);
+                printf("Error: Column '%s' exceeds maximum column name size\n", column_token);
                 return NULL;
             }
             // Assign each column in the row to it's corresponding table index
